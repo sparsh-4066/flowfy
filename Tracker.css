@@ -1,343 +1,349 @@
-/* Background video */
-    #bg-video {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -2;
-      pointer-events: none;
-    }
+/* ─── Background video ─────────────────────────────────────────── */
+#bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+}
 
-    /* Gradient overlay */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #001f4d, #00aaff, #87ceeb);
-      opacity: 0.65;
-      z-index: -1;
-    }
+/* ─── Gradient overlay ─────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #001f4d, #00aaff, #87ceeb);
+  opacity: 0.65;
+  z-index: -1;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Inter', sans-serif;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+/* ─── Body ─────────────────────────────────────────────────────── */
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-    /* Navigation Bar */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: rgba(0, 31, 77, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 1rem 0;
-    }
+/* ─── Sidebar Navigation ───────────────────────────────────────── */
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 160px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
 
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 2rem;
-    }
+#sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 16px;
+}
 
-    .nav-logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: white;
-      text-decoration: none;
-    }
+#sidebar nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
 
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      gap: 2rem;
-    }
+#sidebar nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
 
-    .nav-item {
-      position: relative;
-    }
+#sidebar nav a.active {
+  background: rgba(255, 255, 255, 0.2);
+}
 
-    .nav-link {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
+#sidebar.open {
+  transform: translateX(-160px);
+}
 
-    .nav-link:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px);
-    }
+/* ─── Sidebar Toggle Button ────────────────────────────────────── */
+#toggleBtn {
+  position: fixed;
+  top: 50%;
+  left: 160px;
+  transform: translateY(-50%);
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  padding: 10px 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: left 0.3s ease;
+}
 
-    .nav-link.active {
-      background: rgba(0, 170, 255, 0.3);
-      color: #87ceeb;
-    }
+#toggleBtn.open {
+  left: 0px;
+}
 
-    /* Mobile Navigation */
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      padding: 0.5rem;
-    }
+#toggleBtn::before      { content: "◀"; }
+#toggleBtn.open::before { content: "▶"; }
 
-    .nav-toggle span {
-      width: 25px;
-      height: 3px;
-      background: white;
-      margin: 3px 0;
-      transition: 0.3s;
-      border-radius: 2px;
-    }
+/* ─── Main content — offset for sidebar ───────────────────────── */
+main.tracker-page {
+  margin-left: 160px;
+  transition: margin-left 0.3s ease;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-    @media (max-width: 768px) {
-      .nav-menu {
-        position: fixed;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(0, 31, 77, 0.95);
-        backdrop-filter: blur(10px);
-        flex-direction: column;
-        padding: 2rem;
-        transform: translateY(-100%);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-      }
+/* ─── Card ─────────────────────────────────────────────────────── */
+.card {
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1rem auto;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
 
-      .nav-menu.active {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-      }
+/* ─── Tracker Title ────────────────────────────────────────────── */
+.tracker-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
 
-      .nav-toggle {
-        display: flex;
-      }
+/* ─── Stats Row ────────────────────────────────────────────────── */
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
 
-      .nav-container {
-        padding: 0 1rem;
-      }
-    }
+/* ─── Progress Bar ─────────────────────────────────────────────── */
+.progress-section {
+  margin: 2rem 0;
+  text-align: center;
+}
 
-    main.tracker-page {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-      width: 100%;
-    }
+.progress-info {
+  margin-top: 0.5rem;
+}
 
-    .card {
-      border-radius: 20px;
-      padding: 2rem;
-      margin: 1rem auto;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      width: 100%;
-      max-width: 900px;
-      text-align: center;
-      overflow: hidden;
-      box-sizing: border-box;
-    }
+.progress-info small {
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
 
-    .tracker-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-    }
+progress {
+  width: 80%;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  appearance: none;
+}
 
-    .stats-row {
-      display: flex;
-      justify-content: center;
-      gap: 2.5rem;
-      flex-wrap: wrap;
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 2rem;
-    }
+progress::-webkit-progress-bar {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
 
-    .progress-section {
-      margin: 2rem 0;
-      text-align: center;
-    }
+progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
+  border-radius: 10px;
+}
 
-    .progress-info {
-      margin-top: 0.5rem;
-    }
+progress::-moz-progress-bar {
+  background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
+  border-radius: 10px;
+}
 
-    .progress-info small {
-      color: rgba(255, 255, 255, 0.7);
-      font-style: italic;
-    }
-    progress {
-      width: 80%;
-      height: 20px;
-      border-radius: 10px;
-      overflow: hidden;
-      appearance: none;
-    }
-    progress::-webkit-progress-bar {
-      background-color: rgba(255,255,255,0.2);
-      border-radius: 10px;
-    }
-    progress::-webkit-progress-value {
-      background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
-      border-radius: 10px;
-    }
-    progress::-moz-progress-bar {
-      background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
-      border-radius: 10px;
-    }
+/* ─── Goal & Notes Sections ────────────────────────────────────── */
+.goal-section,
+.notes-section {
+  margin: 2rem auto;
+  text-align: center;
+  width: 80%;
+}
 
-    .goal-section, .notes-section {
-      margin: 2rem auto;
-      text-align: center;
-      width: 80%;
-    }
+.goal-section input,
+.notes-section textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.8rem;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-align: center;
+  box-sizing: border-box;
+}
 
-    .goal-section input, .notes-section textarea {
-      width: 100%;
-      padding: 0.8rem;
-      margin-top: 0.8rem;
-      border-radius: 12px;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-      font-family: 'Inter', sans-serif;
-      background: rgba(255,255,255,0.2);
-      color: white;
-      text-align: center;
-    }
+.goal-section button,
+.notes-section button {
+  margin-top: 0.8rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background: skyblue;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #003366;
+  transition: 0.3s;
+}
 
-    .goal-section button, .notes-section button {
-      margin-top: 0.8rem;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 12px;
-      background: skyblue;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      color: #003366;
-      transition: 0.3s;
-    }
+.goal-section button:hover,
+.notes-section button:hover {
+  background: white;
+}
 
-    .goal-section button:hover, .notes-section button:hover {
-      background: white;
-    }
+/* ─── Charts ───────────────────────────────────────────────────── */
+canvas {
+  background: transparent;
+  border-radius: 14px;
+  padding: 0.5rem;
+  max-width: 100%;
+}
 
-    .chart-wrap {
-      margin-top: 2rem;
-      text-align: center;
-    }
+.chart-section {
+  margin: 2rem auto;
+  text-align: center;
+  width: 100%;
+  max-width: 1000px;
+  overflow: hidden;
+}
 
-    canvas {
-      background: transparent;
-      border-radius: 14px;
-      padding: 0.5rem;
-      max-width: 100%;
-    }
+.chart-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: white;
+  text-align: center;
+}
 
-    /* Completed Tasks Chart Section */
-    .chart-section {
-      margin: 2rem auto;
-      text-align: center;
-      width: 100%;
-      max-width: 1000px;
-      overflow: hidden;
-    }
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  margin: 1rem 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  box-sizing: border-box;
+}
 
-    .chart-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      color: white;
-      text-align: center;
-    }
+.chart-container canvas {
+  background: transparent !important;
+  border-radius: 12px;
+  padding: 0.5rem;
+  max-width: 100%;
+  max-height: 100%;
+}
 
-    .chart-container {
-      position: relative;
-      height: 400px;
-      width: 100%;
-      margin: 1rem 0;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 16px;
-      padding: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      overflow: hidden;
-      box-sizing: border-box;
-    }
+.chart-info {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-    .chart-container canvas {
-      background: transparent !important;
-      border-radius: 12px;
-      padding: 0.5rem;
-      max-width: 100%;
-      max-height: 100%;
-    }
+.chart-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
 
-    .chart-info {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+/* ─── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #sidebar {
+    width: 140px;
+  }
 
-    .chart-description {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.95rem;
-      line-height: 1.5;
-      margin: 0;
-      font-style: italic;
-    }
+  #toggleBtn {
+    left: 140px;
+  }
 
-    /* Responsive chart styling */
-    @media (max-width: 768px) {
-      .chart-container {
-        height: 300px;
-        padding: 1rem;
-      }
+  #toggleBtn.open {
+    left: 0;
+  }
 
-      .chart-title {
-        font-size: 1.5rem;
-      }
+  main.tracker-page {
+    margin-left: 140px;
+  }
 
-      .chart-description {
-        font-size: 0.9rem;
-      }
-    }
+  .chart-container {
+    height: 300px;
+    padding: 1rem;
+  }
 
-    @media (max-width: 480px) {
-      .chart-container {
-        height: 250px;
-        padding: 0.8rem;
-      }
+  .chart-title {
+    font-size: 1.5rem;
+  }
 
-      .chart-title {
-        font-size: 1.3rem;
-      }
-    }
+  .chart-description {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #sidebar {
+    width: 120px;
+  }
+
+  #toggleBtn {
+    left: 120px;
+  }
+
+  #toggleBtn.open {
+    left: 0;
+  }
+
+  main.tracker-page {
+    margin-left: 120px;
+  }
+
+  .chart-container {
+    height: 250px;
+    padding: 0.8rem;
+  }
+
+  .chart-title {
+    font-size: 1.3rem;
+  }
+}

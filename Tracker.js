@@ -564,3 +564,12 @@ if (document.readyState === 'loading') {
     setupTaskChangeListener();
   }, 100);
 }
+
+// ─── Sidebar Toggle (only addition to this file) ─────────────────────────────
+const sidebar = document.getElementById("sidebar");
+const toggleBtn = document.getElementById("toggleBtn");
+
+toggleBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+  toggleBtn.classList.toggle("open");
+});
